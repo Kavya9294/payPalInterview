@@ -79,3 +79,6 @@ gem 'rspec-rails', '~> 3.4', '>= 3.4.2'
 
 #Gem for using TreeMap
 gem 'algorithms', '~> 1.0'
+
+#Gem added to correct indentation
+gem 'rubocop', '~> 1.36', require: false
