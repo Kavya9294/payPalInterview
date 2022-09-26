@@ -33,7 +33,7 @@ module BankScript
             #Adding new user with 0 balance
 						all_users.push(name,{"card": card, "limit": limit, "balance": 0})
 				  else
-            #Adding erroneous users
+            #Adding invalid users
 						all_users.push(name,{"value": "error"})
 				  end
 		    when "Charge"
@@ -42,7 +42,7 @@ module BankScript
 				  current_user = all_users[name]
 				  #Valid user
 				  if current_user.has_key?(:balance)
-						#Don't charge unless within limits
+						#Don't charge unless balance within limits
 						unless (current_user[:balance] + charge) > current_user[:limit]
 							current_user[:balance] += charge
 						end

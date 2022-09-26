@@ -68,6 +68,7 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
+    algorithms (1.0.0)
     bindex (0.8.1)
     bootsnap (1.13.0)
       msgpack (~> 1.2)
@@ -236,6 +237,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  algorithms (~> 1.0)
   bootsnap
   capybara
   debug
