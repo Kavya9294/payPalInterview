@@ -10,18 +10,19 @@ module BankScript
   end
 
 	def run(args)
-		if args.length != 1
+    file = args.readlines
+		if file.length == 0
 			puts "We need exactly one parameter. The name of a file."
 			exit;
 		end
     
-		filename = args[0]
-		fh = open filename
+		# filename = args.filename
+		# fh = open filename
     #Store all valid users
 		valid_users = {}
     #Store all invalid users
 		invalid_users = {}
-		while (line = fh.gets) 
+		file.each do |line| 
 			items = line.split(" ")
 			operation = items[0]
 			case operation
@@ -32,7 +33,7 @@ module BankScript
 				  if card.valid_luhn?
 						valid_users[name] = {"card": card, "limit": limit, "balance": 0}
 				  else
-						invalid_users[name] = {"value": "Error"}
+						invalid_users[name] = {"value": "error"}
 				  end
 		    when "Charge"
 				  name = items[1]
@@ -55,10 +56,9 @@ module BankScript
 				  end          
 			end
 	  end
-    fh.close
+
     print_all_users(valid_users, invalid_users)
     
-    # self.exit
 	end
 
   #Formatting outputt as per requirement
@@ -74,4 +74,4 @@ module BankScript
 end
 			
 
-BankScript.run(ARGV)
+BankScript.run(ARGF)
