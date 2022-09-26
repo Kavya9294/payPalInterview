@@ -70,3 +70,6 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
+
+#Gem to check valid luhn numbers
+gem 'luhn', '~> 1.0', '>= 1.0.2'

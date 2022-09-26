@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: MyString
+  card: 1
+  limit: 1
+  balance: 1
+
+two:
+  user: MyString
+  card: 1
+  limit: 1
+  balance: 1
