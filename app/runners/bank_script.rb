@@ -28,9 +28,12 @@ module BankScript
 					name = items[1]
 					card = items[2]
 					limit = formatLimitToInt(items[3])
+          #Checking if card is valid
 				  if card.valid_luhn?
+            #Adding new user with 0 balance
 						all_users.push(name,{"card": card, "limit": limit, "balance": 0})
 				  else
+            #Adding erroneous users
 						all_users.push(name,{"value": "error"})
 				  end
 		    when "Charge"
@@ -39,7 +42,7 @@ module BankScript
 				  current_user = all_users[name]
 				  #Valid user
 				  if current_user.has_key?(:balance)
-						#balance < limit
+						#Don't charge unless within limits
 						unless (current_user[:balance] + charge) > current_user[:limit]
 							current_user[:balance] += charge
 						end
@@ -59,7 +62,7 @@ module BankScript
     
 	end
 
-  #Formatting outputt as per requirement
+  #Formatting output as per requirement
   def print_all_users(all_users)
     all_users.each do |key, user|
       if user.has_key?(:balance)
