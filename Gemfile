@@ -73,3 +73,6 @@ end
 
 #Gem to check valid luhn numbers
 gem 'luhn', '~> 1.0', '>= 1.0.2'
+
+#Gem for testing ruby scripts in rails
+gem 'rspec-rails', '~> 3.4', '>= 3.4.2'
