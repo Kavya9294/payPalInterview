@@ -76,3 +76,6 @@ gem 'luhn', '~> 1.0', '>= 1.0.2'
 
 #Gem for testing ruby scripts in rails
 gem 'rspec-rails', '~> 3.4', '>= 3.4.2'
+
+#Gem for using TreeMap
+gem 'algorithms', '~> 1.0'

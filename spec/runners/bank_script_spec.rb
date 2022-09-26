@@ -1,5 +1,6 @@
 require_relative '../../app/runners/bank_script.rb'
 require "luhn"
+require "algorithms"
 
 describe BankScript do
 

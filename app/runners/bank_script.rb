@@ -1,4 +1,5 @@
 require "luhn"
+require "algorithms"
 
 module BankScript
   extend self
@@ -16,12 +17,9 @@ module BankScript
 			exit;
 		end
     
-		# filename = args.filename
-		# fh = open filename
-    #Store all valid users
-		valid_users = {}
-    #Store all invalid users
-		invalid_users = {}
+    #Store all users
+		all_users = Containers::RBTreeMap.new
+    
 		file.each do |line| 
 			items = line.split(" ")
 			operation = items[0]
@@ -31,16 +29,16 @@ module BankScript
 					card = items[2]
 					limit = formatLimitToInt(items[3])
 				  if card.valid_luhn?
-						valid_users[name] = {"card": card, "limit": limit, "balance": 0}
+						all_users.push(name,{"card": card, "limit": limit, "balance": 0})
 				  else
-						invalid_users[name] = {"value": "error"}
+						all_users.push(name,{"value": "error"})
 				  end
 		    when "Charge"
 				  name = items[1]
 				  charge = formatLimitToInt(items[2])
-				  current_user = valid_users[name]
+				  current_user = all_users[name]
 				  #Valid user
-				  unless current_user.nil?
+				  if current_user.has_key?(:balance)
 						#balance < limit
 						unless (current_user[:balance] + charge) > current_user[:limit]
 							current_user[:balance] += charge
@@ -49,26 +47,27 @@ module BankScript
 		    when "Credit"
 				  name = items[1]
 				  credit = formatLimitToInt(items[2])
-				  current_user = valid_users[name]
+				  current_user = all_users[name]
 				  #Check if user is valid before credit
-				  unless current_user.nil?
+				  if current_user.has_key?(:balance)
 						current_user[:balance] -= credit
 				  end          
 			end
 	  end
 
-    print_all_users(valid_users, invalid_users)
+    print_all_users(all_users)
     
 	end
 
   #Formatting outputt as per requirement
-  def print_all_users(valid_users, invalid_users)
-    valid_users.each do |key, value|
-		  puts "#{key}: $#{value[:balance]}"
-	  end
-	  invalid_users.each do |key, value|
-			puts "#{key}: #{value[:value]}"  
-	  end
+  def print_all_users(all_users)
+    all_users.each do |key, user|
+      if user.has_key?(:balance)
+        puts "#{key}: $#{user[:balance]}"
+      else
+        puts "#{key}: #{user[:value]}"
+	    end
+    end
   end
 
 end
