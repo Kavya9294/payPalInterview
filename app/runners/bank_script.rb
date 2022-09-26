@@ -1,6 +1,8 @@
+require "luhn"
+
 module BankScript
   extend self
-
+  
   def formatLimitToInt(limit)
     #The following code removes "$" from the string 
     #and converts it to integer
@@ -50,16 +52,12 @@ module BankScript
 				  #Check if user is valid before credit
 				  unless current_user.nil?
 						current_user[:balance] -= credit
-				  end
-        # else
-        #   puts "Invalid operation"            
+				  end          
 			end
 	  end
-
+    fh.close
     print_all_users(valid_users, invalid_users)
-	
-	  fh.close
-
+    
     # self.exit
 	end
 

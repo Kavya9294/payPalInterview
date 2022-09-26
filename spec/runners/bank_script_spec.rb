@@ -10,10 +10,11 @@ describe BankScript do
 	let(:content_credit) { StringIO.new("Add Tom 4111111111111111 $1000\nCredit Tom $100") }
 	let(:content_error) { StringIO.new("Add Tom 1234567890123456 $1000")}
 	let(:content_update) { StringIO.new("Add Tom 4111111111111111 $1000\nCharge Tom $7\nCredit Tom $100")}
+	let(:content_charge_limit) { StringIO.new("Add Tom 4111111111111111 $1000\nCharge Tom $500\nCharge Tom $800") }
 	let(:content_error_update) { StringIO.new("Add Tom 1234567890123456 $1000\nCharge Tom $100\nCredit Tom $200")}
 
   describe "run" do
-		@filename = "somefile.txt"
+		@filename = "file.txt"
 		args =  []
 		args[0] = @filename
     it "creates User with 0 balance" do
@@ -44,6 +45,12 @@ describe BankScript do
 			allow_any_instance_of(Object).to receive(:open).and_return(content_update)
       expect{ described_class.run(args) }
       .to output("Tom: $-93\n").to_stdout
+    end
+
+		it "creates User and keeps balance within limits by invalidating query" do
+			allow_any_instance_of(Object).to receive(:open).and_return(content_charge_limit)
+      expect{ described_class.run(args) }
+      .to output("Tom: $500\n").to_stdout
     end
 
 		it "leads to error due to inavlid card and balance is not updated" do
